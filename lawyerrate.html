@@ -1,0 +1,121 @@
+<!--TRANSATION  PART START-->
+
+<!DOCTYPE HTML>  
+<html>
+<head>
+
+
+</head>
+<body>  
+  
+<h1> Welcome To Forseti Management System </h1>
+<h2> Instructions :</h2>
+<h3> 1. Please Provide Your Details Information Here </h3><br>
+<h3> 2. After That Click On Done Button </h3>
+
+<?php  
+// define variables to empty values  
+$nameErr = $emailErr = $mobilenoErr = $genderErr = $websiteErr = $agreeErr = "";  
+$name = $email = $mobileno = $gender = $website = $agree = "";  
+  
+//Input fields validation  
+if ($_SERVER["REQUEST_METHOD"] == "POST") {  
+      
+//String Validation  
+    if (emptyempty($_POST["name"])) {  
+         $nameErr = "Name is required";  
+    } else {  
+        $name = input_data($_POST["name"]);  
+            // check if name only contains letters and whitespace  
+            if (!preg_match("/^[a-zA-Z ]*$/",$name)) {  
+                $nameErr = "Only alphabets and white space are allowed";  
+            }  
+    }  
+      
+    //Email Validation   
+    if (emptyempty($_POST["email"])) {  
+            $emailErr = "Email is required";  
+    } else {  
+            $email = input_data($_POST["email"]);  
+            // check that the e-mail address is well-formed  
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {  
+                $emailErr = "Invalid email format";  
+            }  
+     }  
+    
+    //Number Validation  
+    if (emptyempty($_POST["mobileno"])) {  
+            $mobilenoErr = "Mobile no is required";  
+    } else {  
+            $mobileno = input_data($_POST["mobileno"]);  
+            // check if mobile no is well-formed  
+            if (!preg_match ("/^[0-9]*$/", $mobileno) ) {  
+            $mobilenoErr = "Only numeric value is allowed.";  
+            }  
+        //check mobile no length should not be less and greator than 10  
+        if (strlen ($mobileno) != 10) {  
+            $mobilenoErr = "Mobile no must contain 10 digits.";  
+            }  
+    }  
+      
+    //URL Validation      
+    if (emptyempty($_POST["website"])) {  
+        $website = "";  
+    } else {  
+            $website = input_data($_POST["website"]);  
+            // check if URL address syntax is valid  
+            if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {  
+                $websiteErr = "Invalid URL";  
+            }      
+    }  
+      
+    //Empty Field Validation  
+    if (emptyempty ($_POST["gender"])) {  
+            $genderErr = "Gender is required";  
+    } else {  
+            $gender = input_data($_POST["gender"]);  
+    }  
+  
+    //Checkbox Validation  
+    if (!isset($_POST['agree'])){  
+            $agreeErr = "Accept terms of services before submit.";  
+    } else {  
+            $agree = input_data($_POST["agree"]);  
+    }  
+}  
+function input_data($data) {  
+  $data = trim($data);  
+  $data = stripslashes($data);  
+  $data = htmlspecialchars($data);  
+  return $data;  
+}  
+?>  
+  
+
+
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  Name: <input type="text" name="name">
+  <br><br>
+  E-mail: <input type="text" name="email">
+  <br><br>
+  DOB: <input type="text" name="dob">
+  <br>
+  Age: <input type="text" name="age">
+  <br>
+  Gender:
+  <input type="radio" name="gender" value="female">Female
+  <input type="radio" name="gender" value="male">Male
+  <input type="radio" name="gender" value="other">Other
+  <br>
+  <input type="submit" name="submit" value="Submit">
+  <br>
+  
+</form>
+
+<br> <br>
+
+<a href="lawyerfb.html"> Done</a>
+
+</body>
+</html>
